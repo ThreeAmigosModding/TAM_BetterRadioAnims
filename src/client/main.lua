@@ -25,7 +25,7 @@ local function CheckType(ped, type)
     else return false end
 end
 
-local function earPiece(ped)
+local function EarPiece(ped)
     local ear = GetPedPropIndex(ped, 2)
     for _, variation in pairs(config["Ear Piece Animations"]) do
         if ear == variation then return true end
@@ -54,7 +54,7 @@ AddEventHandler("pma-voice:radioActive", function(radioTalking)
     local class = GetVehicleClass(vehicle)
     local shoulder = CheckType(ped, "shoulder")
     local chest = CheckType(ped, "chest")
-    local ear = earPiece(ped)
+    local ear = EarPiece(ped)
     if radioTalking and exist and not dead and not pause then
         if not inVeh then
             if shoulder then
