@@ -98,4 +98,3 @@ Download [animations](https://www.gta5-mods.com/misc/leo-custom-anim) and add to
 # Credits
 
 [Marshular](https://github.com/marshular) - Original creator, gave [explicit permission](https://i.imgur.com/uKDUEd1.png) to release under Three Amigos Modding
-[Andyyy7666](https://github.com/Andyyy7666) - Minor optimizations
