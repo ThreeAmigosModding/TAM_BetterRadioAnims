@@ -92,7 +92,7 @@ AddEventHandler("pma-voice:radioActive", function(radioTalking)
     local ped = cache.ped
     local playerId = cache.playerId
     local veh = cache.vehicle
-    local aiming = IsPlayerFreeAiming(id)
+    local aiming = IsPlayerFreeAiming(playerId)
     local vehClass = GetVehicleClass(veh)
 
     if not DoesEntityExist(ped) or IsEntityDead(ped) or IsPauseMenuActive() then return end
