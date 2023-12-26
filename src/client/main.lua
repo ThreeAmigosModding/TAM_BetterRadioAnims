@@ -1,16 +1,7 @@
-local export = nil
-local rpemotes = GetResourceState("rpemotes")
-local scully = GetResourceState("scully_emotemenu")
-
-if rpemotes == "missing" and scully == "missing" then return end
-
-CreateThread(function()
-    if rpemotes == "started" then
-        export = exports["rpemotes"]
-    elseif scully == "started" then
-        export = exports["scully_emotemenu"]
-    end
-end)
+local rpemotes = GetResourceState('rpemotes') == 'started' and true or false
+local scully = GetResourceState('scully_emotemenu') == 'started' and true or false
+if not rpemotes and not scully then return end
+local export = GetResourceState('rpemotes') == 'started' and exports['rpemotes'] or exports['scully_emotemenu']
 
 local function CheckType(ped, type)
     local male = GetHashKey("mp_m_freemode_01")
@@ -55,13 +46,13 @@ local function CheckType(ped, type)
 end
 
 local function playEmote(emoteName)
-    if rpemotes == "started" then export:EmoteCommandStart(emoteName)
-    elseif scully == "started" then export:playEmoteByCommand(emoteName) end
+  if rpemotes then export:EmoteCommandStart(emoteName)
+  else export:playEmoteByCommand(emoteName) end
 end
 
 local function stopEmote()
-    if rpemotes == "started" then export:EmoteCancel()
-    elseif scully == "started" then export:cancelEmote() end
+  if rpemotes then export:EmoteCancel()
+  else export:cancelEmote() end
 end
 
 AddEventHandler("pma-voice:radioActive", function(radioTalking)
