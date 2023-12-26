@@ -1,7 +1,16 @@
-local rpemotes = GetResourceState('rpemotes') == 'started' and true or false
-local scully = GetResourceState('scully_emotemenu') == 'started' and true or false
-if not rpemotes and not scully then return end
-local export = GetResourceState('rpemotes') == 'started' and exports['rpemotes'] or exports['scully_emotemenu']
+local export = nil
+local rpemotes = GetResourceState("rpemotes")
+local scully = GetResourceState("scully_emotemenu")
+
+if rpemotes == "missing" and scully == "missing" then return end
+
+CreateThread(function()
+    if rpemotes == "started" then
+        export = exports["rpemotes"]
+    elseif scully == "started" then
+        export = exports["scully_emotemenu"]
+    end
+end)
 
 local function CheckType(ped, type)
     local male = GetHashKey("mp_m_freemode_01")
@@ -11,33 +20,33 @@ local function CheckType(ped, type)
     local model = GetEntityModel(ped)
     if type == "chest" then
         if model == male then
-            for _, variation in pairs(config["Chest Animations"]["Male") do
+            for _, variation in pairs(config["Chest Animations"]["Male"]) do
                 if drawable == variation then return true end
             end
         elseif model == female then
-            for _, variation in pairs(config["Chest Animations"]["Female") do
+            for _, variation in pairs(config["Chest Animations"]["Female"]) do
                 if drawable == variation then return true end
             end
         else return false
         end
     elseif type == "shoulder" then 
         if model == male then
-            for _, variation in pairs(config["Shoulder Animations"]["Male") do
+            for _, variation in pairs(config["Shoulder Animations"]["Male"]) do
                 if drawable == variation then return true end
             end
         elseif model == female then
-            for _, variation in pairs(config["Shoulder Animations"]["Female") do
+            for _, variation in pairs(config["Shoulder Animations"]["Female"]) do
                 if drawable == variation then return true end
             end
         else return false
         end
     elseif type == "ear" then 
         if model == male then
-            for _, variation in pairs(config["Ear Piece Animations"]["Male") do
+            for _, variation in pairs(config["Ear Piece Animations"]["Male"]) do
                 if ear == variation then return true end
             end
         elseif model == female then
-            for _, variation in pairs(config["Ear Piece Animations"]["Female") do
+            for _, variation in pairs(config["Ear Piece Animations"]["Female"]) do
                 if ear == variation then return true end
             end
         else return false
