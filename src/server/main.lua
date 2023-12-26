@@ -1,15 +1,10 @@
-if GetConvarInt("voice_enableRadioAnim", 1) ~= 0 then
-    print("^1PMA-VOICE RADIO ANIMATIONS ENABLED, FOR THIS SCRIPT TO WORK PLEASE ENSURE YOU HAVE THEN DISABLED. Add this to you config or replace it >>> 'setr voice_enableRadioAnim 0'")
-    print("^1PMA-VOICE RADIO ANIMATIONS ENABLED, FOR THIS SCRIPT TO WORK PLEASE ENSURE YOU HAVE THEN DISABLED. Add this to you config or replace it >>> 'setr voice_enableRadioAnim 0'")
-    print("^1PMA-VOICE RADIO ANIMATIONS ENABLED, FOR THIS SCRIPT TO WORK PLEASE ENSURE YOU HAVE THEN DISABLED. Add this to you config or replace it >>> 'setr voice_enableRadioAnim 0'")
-    print("^1PMA-VOICE RADIO ANIMATIONS ENABLED, FOR THIS SCRIPT TO WORK PLEASE ENSURE YOU HAVE THEN DISABLED. Add this to you config or replace it >>> 'setr voice_enableRadioAnim 0'")
-    print("^1PMA-VOICE RADIO ANIMATIONS ENABLED, FOR THIS SCRIPT TO WORK PLEASE ENSURE YOU HAVE THEN DISABLED. Add this to you config or replace it >>> 'setr voice_enableRadioAnim 0'")
-end
+local scully = lib.checkDependency("scully_emotemenu", "1.8.0")
+local rpemotes = lib.checkDependency("rpemotes", "1.3.8")
 
-if GetResourceState("rpemotes") == "missing" and GetResourceState("scully_emotemenu") == "missing" then
-    print("^1SCULLY_EMOTEMENU OR RPEMOTES IS REQUIRES TO RUN THIS RESOURCE, WITHOUT EITHER OR THE SCRIPT IS USELESS.")
-    print("^1SCULLY_EMOTEMENU OR RPEMOTES IS REQUIRES TO RUN THIS RESOURCE, WITHOUT EITHER OR THE SCRIPT IS USELESS.")
-    print("^1SCULLY_EMOTEMENU OR RPEMOTES IS REQUIRES TO RUN THIS RESOURCE, WITHOUT EITHER OR THE SCRIPT IS USELESS.")
-    print("^1SCULLY_EMOTEMENU OR RPEMOTES IS REQUIRES TO RUN THIS RESOURCE, WITHOUT EITHER OR THE SCRIPT IS USELESS.")
-    print("^1SCULLY_EMOTEMENU OR RPEMOTES IS REQUIRES TO RUN THIS RESOURCE, WITHOUT EITHER OR THE SCRIPT IS USELESS.")
+if scully and not rpemotes then 
+    lib.print.info("Successfully loaded scully_emotemenu integration!")
+elseif not scully and rpemotes then
+    lib.print.info("Successfully loaded rpemotes integration!")
+else
+    lib.print.error('rpemotes or scully_emotemenu is either outdated or missing or both installed. Please update and make sure you only have one of the resources installed and running.')
 end

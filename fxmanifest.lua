@@ -6,7 +6,7 @@ game 'gta5'
 name 'tam_betteradioanims'
 author 'Hakko'
 description 'Three Amigos Modding - Better Radio Animations'
-version '1.0.0'
+version '2.0.0'
 
 client_debug_mode 'false'
 server_debug_mode 'false'
