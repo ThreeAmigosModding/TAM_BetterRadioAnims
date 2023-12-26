@@ -1,35 +1,48 @@
-local export = nil
-local rpemotes = GetResourceState("rpemotes")
-local scully = GetResourceState("scully_emotemenu")
-
-if rpemotes == "missing" and scully == "missing" then return end
-
-CreateThread(function()
-    if rpemotes == "started" then
-        export = exports["rpemotes"]
-    elseif scully == "started" then
-        export = exports["scully_emotemenu"]
-    end
-end)
+local rpemotes = GetResourceState('rpemotes') == 'started' and true or false
+local scully = GetResourceState('scully_emotemenu') == 'started' and true or false
+if not rpemotes and not scully then return end
+local export = GetResourceState('rpemotes') == 'started' and exports['rpemotes'] or exports['scully_emotemenu']
 
 local function CheckType(ped, type)
+    local male = GetHashKey("mp_m_freemode_01")
+    local female = GetHashKey("mp_f_freemode_01")
     local drawable = GetPedDrawableVariation(ped, config["Drawable Variations"])
+    local ear = GetPedPropIndex(ped, 2)
+    local model = GetEntityModel(ped)
     if type == "chest" then
-        for _, variation in pairs(config["Chest Animations"]) do
-            if drawable == variation then return true end
+        if model == male then
+            for _, variation in pairs(config["Chest Animations"]["Male") do
+                if drawable == variation then return true end
+            end
+        elseif model == female then
+            for _, variation in pairs(config["Chest Animations"]["Female") do
+                if drawable == variation then return true end
+            end
+        else return false
         end
     elseif type == "shoulder" then 
-        for _, variation in pairs(config["Shoulder Animations"]) do
-            if drawable == variation then return true end
+        if model == male then
+            for _, variation in pairs(config["Shoulder Animations"]["Male") do
+                if drawable == variation then return true end
+            end
+        elseif model == female then
+            for _, variation in pairs(config["Shoulder Animations"]["Female") do
+                if drawable == variation then return true end
+            end
+        else return false
+        end
+    elseif type == "ear" then 
+        if model == male then
+            for _, variation in pairs(config["Ear Piece Animations"]["Male") do
+                if ear == variation then return true end
+            end
+        elseif model == female then
+            for _, variation in pairs(config["Ear Piece Animations"]["Female") do
+                if ear == variation then return true end
+            end
+        else return false
         end
     else return false end
-end
-
-local function EarPiece(ped)
-    local ear = GetPedPropIndex(ped, 2)
-    for _, variation in pairs(config["Ear Piece Animations"]) do
-        if ear == variation then return true end
-    end
 end
 
 local function playEmote(emoteName)
@@ -54,7 +67,7 @@ AddEventHandler("pma-voice:radioActive", function(radioTalking)
     local class = GetVehicleClass(vehicle)
     local shoulder = CheckType(ped, "shoulder")
     local chest = CheckType(ped, "chest")
-    local ear = EarPiece(ped)
+    local ear = CheckType(ped, "ear")
     if radioTalking and exist and not dead and not pause then
         if not inVeh then
             if shoulder then
