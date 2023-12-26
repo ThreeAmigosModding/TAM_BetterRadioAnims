@@ -1,8 +1,17 @@
 config = {
     ["Drawable Variations"] = 9, --  What clothing type do you want the script check for? (ex: Shirts, Pants, etc.)
-    ["Chest Animations"] = {1, 2, 3}, -- What clothing variations do you want the script to check for? (ex: 109, 75, 256)
-    ["Shoulder Animations"] = {4}, -- What clothing variations do you want the script to check for? (ex: 109, 75, 256)
-    ["Ear Piece Animations"] = {0, 1, 2} -- What clothing variations do you want the script to check for? (ex: 109, 75, 256)
+    ["Chest Animations"] = { -- What clothing variations do you want the script to check for? (ex: 109, 75, 256)
+        ["Male"] = {1, 2, 3},
+        ["Female"] = {1, 2, 3},
+    }, 
+    ["Shoulder Animations"] = { -- What clothing variations do you want the script to check for? (ex: 109, 75, 256)
+        ["Male"] = {1, 2, 3},
+        ["Female"] = {1, 2, 3}
+    }, 
+    ["Ear Piece Animations"] = { -- What clothing variations do you want the script to check for? (ex: 109, 75, 256)
+        ["Male"] = {1, 2, 3},
+        ["Female"] = {1, 2, 3}
+    }
 }
 
 --[[
