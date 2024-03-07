@@ -20,13 +20,13 @@ local function handleEmote(emote, action)
     if scully and not rpemotes then
         if action == "play" then
             export:playEmoteByCommand(emote)
-        elseif action == "stop"
+        elseif action == "stop" then
             export:cancelEmote()
         end
     elseif rpemotes and not scully then
         if action == "play" then
             export:EmoteCommandStart(emote)
-        elseif action == "stop"
+        elseif action == "stop" then
             export:EmoteCancle()
         end
     end
