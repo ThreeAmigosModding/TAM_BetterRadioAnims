@@ -1,25 +1,41 @@
+--[[------------------------------------------
+---- For Support - discord.gg/threeamigos ----
+--]]------------------------------------------
+
 config = {
-    debug = false, -- enable or disable debug prints to your client console.
+    debug = false, -- enable or disable debug prints to your client console. Also enables the ability to use commands to get drawable types & textures.
+
+    defaultEmote = "wt2", -- default emote that plays if you dont have the clothing option (Use wt3 or wt4 if using RPEmotes)
 
     chestAnim = { -- Chest Animation
         enable = true, -- enable the chest radio animation
         drawable = 9, -- the drawable (clothing type) for the chest radio animation
         male = {1, 2, 3}, -- the clothing variations for the chest radio animation for male
-        female = {1, 2, 3} -- the clothing variations for the chest radio animation for female
+        female = {1, 2, 3}, -- the clothing variations for the chest radio animation for female,
+        maleTexture = {1, 2, 3}, -- the texture id's of the drawable for male clothing. 
+        femaleTexture = {1, 2, 3}, -- the texture id's of the drawable for female clothing.
+        emote = "radiochest" -- Emote to play
     },
 
     shoulderAnim = { -- Shoulder Animation
         enable = true, -- enable the shoulder radio animation
         drawable = 9, -- the drawable (clothing type) for the shoulder radio animation
         male = {4, 5, 6}, -- the clothing variations for the shoulder radio animation for male
-        female = {4, 5, 6} -- the clothing variations for the shoulder radio animation for female
+        female = {4, 5, 6}, -- the clothing variations for the shoulder radio animation for female
+        maleTexture = {1, 2, 3}, -- the texture id's of the drawable for male clothing. 
+        femaleTexture = {1, 2, 3}, -- the texture id's of the drawable for female clothing.
+        emote = "radio", -- emote to play
+        emoteAiming = "radio2" -- Emote to play when aiming
     },
 
     earpieceAnim = { -- Ear Piece Animation
         enable = true, -- enable the ear piece radio animation
         drawable = 9, -- the drawable (clothing type) for the ear piece
         male = {7, 8, 9}, -- the clothing variations for the ear piece for male
-        female = {7, 8, 9} -- the clothing variations for the ear piece for female
+        female = {7, 8, 9}, -- the clothing variations for the ear piece for female
+        maleTexture = {1, 2, 3}, -- the texture id's of the drawable for male clothing. 
+        femaleTexture = {1, 2, 3}, -- the texture id's of the drawable for female clothing.
+        emote = "earpiece" -- Emote to play
     },
 
     blacklistedPeds = { -- blacklist peds from using the anims - list of peds: https://forge.plebmasters.de/peds

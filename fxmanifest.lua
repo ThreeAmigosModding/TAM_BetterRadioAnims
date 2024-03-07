@@ -1,37 +1,33 @@
-fx_version 'cerulean'
-use_experimental_fxv2_oal 'yes'
-lua54 'yes'
-game 'gta5'
+--[[------------------------------------------------------
+----       For Support - discord.gg/threeamigos       ----
+---- Do not edit if you do not know what you"re doing ----
+--]]------------------------------------------------------
 
-name 'tam_betteradioanims'
-author 'Hakko'
-description 'Three Amigos Modding - Better Radio Animations'
-version '2.0.0'
+game "gta5"
+lua54 "yes"
+fx_version "cerulean"
+use_experimental_fxv2_oal "yes"
 
-client_debug_mode 'false'
-server_debug_mode 'false'
-experimental_features_enabled '0'
+author "Hakko"
+version "3.0.0"
+license "GPL-v3"
+name "TAM_BetterRadioAnims"
+description "Three Amigos Modding - Better Radio Animations"
+repository "https://github.com/threeamigosmodding/TAM_BetterRadioAnims"
+
+client_debug_mode "false"
+server_debug_mode "false"
+experimental_features_enabled "0"
 
 dependencies {
-	'ox_lib',
+	"ox_lib",
 }
 
 shared_scripts {
-	'@ox_lib/init.lua'
+	"@ox_lib/init.lua",
+    "data/**"
 }
 
-client_scripts {
-    'config.lua',
-    'src/client/main.lua'
-}
+client_script "client/main.lua"
 
-server_scripts {
-    'config.lua',
-    'src/server/main.lua'
-}
-
-escrow_ignore {
-    'src/server/main.lua',
-    'src/client/main.lua',
-    'config.lua'
-}
+server_script "server/main.lua"

@@ -12,6 +12,8 @@ Improved radio anims with support for rp-emotes and scully emotes
 
 Add ``setr voice_enableRadioAnim 0`` to your server.cfg 
 
+**This WILL NOT work if you are using rp-radio**
+
 Download the release of [ox_lib](https://github.com/overextended/ox_lib) from  & add it to your server.cfg or resources.cfg **BEFORE** `TAM_BetterRadioAnims`
 
 Add `ensure TAM_BetterRadioAnims` to your server or resources cfg file
@@ -63,6 +65,8 @@ Download [animations](https://www.gta5-mods.com/misc/leo-custom-anim) and add to
 ### If using rpemotes:
 
 **Add to rpemotes/client/AnimationListCustom.lua:**
+
+**Change `config.defaultEmote` to `wt3` or `wt4`**
 
 ``CustomDP.Emotes = {}``
 ```lua
