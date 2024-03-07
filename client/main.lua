@@ -27,7 +27,7 @@ local function handleEmote(emote, action)
         if action == "play" then
             export:EmoteCommandStart(emote)
         elseif action == "stop" then
-            export:EmoteCancle()
+            export:EmoteCancel()
         end
     end
 end
