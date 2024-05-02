@@ -19,13 +19,16 @@ client_debug_mode "false"
 server_debug_mode "false"
 experimental_features_enabled "0"
 
+files {
+	"data/**"
+}
+
 dependencies {
 	"ox_lib",
 }
 
 shared_scripts {
-	"@ox_lib/init.lua",
-    "data/**"
+	"@ox_lib/init.lua"
 }
 
 client_script "client/main.lua"
