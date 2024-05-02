@@ -2,107 +2,146 @@
 ----       For Support - discord.gg/threeamigos       ----
 ---- Do not edit if you do not know what you"re doing ----
 --]]------------------------------------------------------
+local config = require "data.config"
+
+if not lib or not config then return end
 
 local scully = lib.checkDependency("scully_emotemenu", "1.8.0")
 local rpemotes = lib.checkDependency("rpemotes", "1.3.8")
-local config = require "data.config"
 local export = nil
 
-if scully and not rpemotes then 
+if scully then
     export = exports["scully_emotemenu"]
-elseif not scully and rpemotes then
+elseif rpemotes then
     export = exports["rpemotes"]
 else
-    lib.print.debug("rpemotes or scully_emotemenu is either outdated or missing or both installed. Please update and make sure you only have one of the resources installed and running.")
+    return lib.print.debug("rpemotes or scully_emotemenu is either outdated or missing or both installed. Please update and make sure you only have one of the resources installed and running.")
 end
 
+--- Function to handle emote playing
+---@param emote? string
+---@param action? string
 local function handleEmote(emote, action)
-    if scully and not rpemotes then
-        if action == "play" then
-            export:playEmoteByCommand(emote)
-        elseif action == "stop"
-            export:cancelEmote()
-        end
-    elseif rpemotes and not scully then
-        if action == "play" then
-            export:EmoteCommandStart(emote)
-        elseif action == "stop"
-            export:EmoteCancle()
-        end
+    if not export then return end
+
+    if scully and action == "play" then
+        export:playEmoteByCommand(emote)
+        return
+    elseif scully then
+        export:cancelEmote()
+        return
+    elseif rpemotes and action == "play" then
+        export:EmoteCommandStart(emote)
+        return
+    elseif rpemotes then
+        export:EmoteCancel()
+        return
     end
 end
 
+--- Function to check variation & texture types of ped.
+---@param ped integer
+---@param animType string
+---@return boolean
 local function checkType(ped, animType)
+    if not ped or not animType then return false end
+
     local modelTypes = {
-        male = GetHashKey("mp_m_freemode_01"),
-        female = GetHashKey("mp_f_freemode_01")
+        male = "mp_m_freemode_01",
+        female = "mp_f_freemode_01"
     }
-    
-    local mode = GetEntityModel(ped)
-    local animConfig = config[animtype]
-
-    if animConfig and animConfig.enable then
-        local drawableType = GetPedDrawableVariation(ped, animConfig.drawable)
-        local textureType = GetPedTextureVariation(ped, drawableType)
-
-        for gender, modelType in pairs(modelTypes) do
-            if model == modelType then
-                for _, variation in pairs(animconfig[gender]) do
-                    for _, texture in pairs(animConfig[gender .. "Texture"]) do
-                        if drawableType == variation and textureType == texture then return true end
-                    end
-                end
-            end
-        end
-    end
+    local drawableVariationType = {}
+    local textureVariationType = {}
+    local model = GetEntityModel(ped)
+    local animConfig = config[animType]
+    local drawableType = GetPedDrawableVariation(ped, animConfig.drawable)
+    local textureType = GetPedTextureVariation(ped, drawableType)
 
     if lib.table.contains(config.blacklistedPeds, model) then
-        TriggerEvent("chat:addMessage", "That model is blacklisted!")
-        if config.debug then lib.print.debug("That model is blacklisted!") end
-        return "blacklisted"
-    else
-        if config.debug then lib.print.debug("Unspecified drawable, reverting to default animation.") end
+        TriggerEvent("chat:addMessage", "[Radio Anims] The ped model you're using is blacklisted!")
         return false
     end
+
+    for gender, modelType in pairs(modelTypes) do
+        for _, drawableVariation in pairs(animConfig[gender].variations) do
+            table.insert(drawableVariationType, drawableVariation)
+        end
+
+        for _, textureVariation in pairs(animConfig[gender].textures) do
+            table.insert(textureVariationType, textureVariation)
+        end
+    end
+
+    if lib.table.contains(drawableVariationType, drawableType) and lib.table.contains(textureVariationType, textureType) then return true end
+
+    return false
 end
 
-AddEventHandler("pma-voice:radioActive", function(radioTalking)
+---comment function to handle radio animation
+---@param enable boolean
+local function handleRadioAnim(enable)
     local ped = cache.ped
-    local playerId = cache.playerId
     local veh = cache.vehicle
-    local aiming = IsPlayerFreeAiming(playerId)
+    local isAiming = IsPlayerFreeAiming(cache.playerId)
     local vehClass = GetVehicleClass(veh)
 
     if not DoesEntityExist(ped) or IsEntityDead(ped) or IsPauseMenuActive() then return end
 
-    if radioTalking then
+    if enable then
         local emote = config.defaultEmote
+        local chest = checkType(ped, "chestAnim")
+        local shoulder = checkType(ped, "shoulderAnim")
+        local ear = checkType(ped, "earpieceAnim")
+        local allowInCar = config.allowEmoteInVehicles
+        local isBlacklisted = lib.table.contains(config.blacklistedClasses, vehClass)
 
-        if checkType(ped, "chest") then
-            emote = config.chestAnim.emote
-        elseif checkType(ped, "shoulder") and not aiming then
-            emote = config.shoulderAnim.emote
-        elseif checkType(ped, "shoulder") and aiming then
+        if not emote then return end
+
+        if isAiming then
             emote = config.shoulderAnim.emoteAiming
-        elseif checkType(ped, "ear") then
+        elseif chest then
+            emote = config.chestAnim.emote
+        elseif shoulder then
+            emote = config.shoulderAnim.emote
+        elseif ear then
             emote = config.earpieceAnim.emote
-        elseif veh and checkType(ped, "ear") and not lib.table.contains(config.blacklistedClasses, vehClass) then
+        elseif allowInCar and not isBlacklisted then
             emote = config.earpieceAnim.emote
         end
 
         handleEmote(emote, "play")
-    elseif not radioTalking then
-        handleEmote(nil, "stop")
-    elseif config.debug then
-        lib.print.debug("Unknown Error with event handler pma-voice:radioActive")
+        return
     end
-end)
+
+   handleEmote()
+end
+
+if config.useKeybind then
+    lib.addKeybind({
+        name = "radioAnimKey",
+        description = "Radio Animation Key",
+        defaultKey = config.keybindKey,
+        defaultMapper = "KEYBOARD",
+        secondaryKey = config.controllerKey,
+        secondaryMapper = "PAD_DIGITALBUTTON",
+        onPressed = function(self)
+            handleRadioAnim(true)
+        end,
+        onReleased = function(self)
+            handleRadioAnim(false)
+        end
+    })
+end
+
+if config.useEvent then
+    AddEventHandler("pma-voice:radioActive", function(radioTalking)
+        handleRadioAnim(radioTalking)
+    end)
+end
 
 if config.debug then
-    lib.print.info("Debug mode is enabled.")
-
-    RegisterCommand("getdrawable", function(args)
-        if tonumber(args[1]) == nil then 
+    RegisterCommand("getdrawable", function(source, args)
+        if tonumber(args[1]) == nil then
             TriggerEvent("chat:addMessage", "Invalid Usage. Usage: /getdrawable <0-11>")
             return
         end
@@ -112,10 +151,10 @@ if config.debug then
 
         lib.print.info("Copied ".. drawableType .. " to your clipboard!")
         TriggerEvent("chat:addMessage", "Copied ".. drawableType .. " to your clipboard!")
-        lib.setCilpboard(drawableType)
+        lib.setClipboard(drawableType)
     end, false)
 
-    RegisterCommand("gettexture", function(args)
+    RegisterCommand("gettexture", function(source, args)
         if tonumber(args[1]) == nil then 
             TriggerEvent("chat:addMessage", "Invalid Usage. Usage: /gettexture <0-11>")
             return
@@ -127,9 +166,9 @@ if config.debug then
 
         lib.print.info("Copied ".. textureType .. " to your clipboard!")
         TriggerEvent("chat:addMessage", "Copied ".. textureType .. " to your clipboard!")
-        lib.setCilpboard(textureType)
+        lib.setClipboard(textureType)
     end, false)
-    
+
     RegisterCommand("setradiochannel", function()
         exports["pma-voice"]:setRadioChannel(1)
     end, false)
