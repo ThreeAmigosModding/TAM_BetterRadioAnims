@@ -161,8 +161,7 @@ if config.debug then
         end
         local ped = cache.ped
         local componentId = args[1]
-        local drawableType = GetPedDrawableVariation(ped, componentId)
-        local textureType = GetPedTextureVariation(ped, drawableType)
+        local textureType = GetPedTextureVariation(ped, componentId)
 
         lib.print.info("Copied ".. textureType .. " to your clipboard!")
         TriggerEvent("chat:addMessage", "Copied ".. textureType .. " to your clipboard!")

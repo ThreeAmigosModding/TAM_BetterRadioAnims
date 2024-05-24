@@ -34,3 +34,11 @@ shared_scripts {
 client_script "client/main.lua"
 
 server_script "server/main.lua"
+
+
+escrow_ignore {
+	"client/*.lua",
+	"stream/*",
+	"data/**",
+	"server/*.lua"
+}
