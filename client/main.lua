@@ -6,28 +6,28 @@ function ShowNotification(text)
     DrawNotification(false, false)
 end
 
-local animation = "sholder"
+local animation = "shoulder"
 
 RegisterCommand("radioanimation", function(src, args, raw)
 
 local ani = args[1]
 
 if ani == nil then
-ShowNotification("~r~!ERROR!: ~w~You must provide a animation, either: sholder, chest, or handheld!")
-elseif ani == "sholder" then
-animation = "sholder"
+ShowNotification("~r~!ERROR!: ~w~You must provide a animation, either: shoulder, chest, or handheld!")
+elseif ani == "shoulder" then
+animation = "shoulder"
 elseif ani == "chest" then
 animation = "chest"
 elseif ani == "handheld" then
 animation = "handheld"
 else
-ShowNotification("~r~!ERROR!: ~w~Thats not a valid animation! The oprtions are: sholder, chest, or handheld!")
+ShowNotification("~r~!ERROR!: ~w~Thats not a valid animation! The oprtions are: shoulder, chest, or handheld!")
 end
 
 end, false)
 
 TriggerEvent('chat:addSuggestion', '/radioanimation', 'Change the radio animation', {
-    { name="Animation", help="Pick one of these: handheld, sholder, chest" }
+    { name="Animation", help="Pick one of these: handheld, shoulder, chest" }
 })
 ---comment function to handle radio animation
 ---@param enable boolean
