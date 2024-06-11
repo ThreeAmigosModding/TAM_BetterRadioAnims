@@ -1,6 +1,8 @@
-# Better Radio Anims by Three Amigos Modding
+# Radio Animation Command
 
-Improved radio anims with support for rp-emotes and scully emotes
+**FRAMEWORK BY Three Amigos Modding AND COMMAND BY Marfia Studios**
+
+Improved radio anims and Command
 
 ## Installation
 
