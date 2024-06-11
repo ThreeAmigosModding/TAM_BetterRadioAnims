@@ -8,20 +8,15 @@ lua54 "yes"
 fx_version "cerulean"
 use_experimental_fxv2_oal "yes"
 
-author "Hakko"
-version "3.0.0"
+author "Marfia Studios"
+version "1.0.0"
 license "GPL-v3"
-name "TAM_BetterRadioAnims"
-description "Three Amigos Modding - Better Radio Animations"
-repository "https://github.com/threeamigosmodding/TAM_BetterRadioAnims"
+name "RadioAnimationCommand"
+description "Three Amigos Modding - Better Radio Animations | Marfia Studios Radio Animation Command"
 
 client_debug_mode "false"
 server_debug_mode "false"
 experimental_features_enabled "0"
-
-files {
-	"data/**"
-}
 
 dependencies {
 	"ox_lib",
@@ -33,12 +28,8 @@ shared_scripts {
 
 client_script "client/main.lua"
 
-server_script "server/main.lua"
-
-
 escrow_ignore {
 	"client/*.lua",
 	"stream/*",
-	"data/**",
 	"server/*.lua"
 }
