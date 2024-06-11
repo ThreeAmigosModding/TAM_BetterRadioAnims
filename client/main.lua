@@ -13,7 +13,7 @@ RegisterCommand("radioanimation", function(src, args, raw)
 local ani = args[1]
 
 if ani == nil then
-ShowNotification("You must provide a animation, either: sholder, chest, or handheld!")
+ShowNotification("~r~!ERROR!: ~w~You must provide a animation, either: sholder, chest, or handheld!")
 elseif ani == "sholder" then
 animation = "sholder"
 elseif ani == "chest" then
@@ -21,14 +21,14 @@ animation = "chest"
 elseif ani == "handheld" then
 animation = "handheld"
 else
-ShowNotification("Thats not a valid animation! The oprtions are: sholder, chest, or handheld!")
+ShowNotification("~r~!ERROR!: ~w~Thats not a valid animation! The oprtions are: sholder, chest, or handheld!")
 end
 
 end, false)
 
-AddTextEntry('COMMAND_RADIOANIMATION', 'Sets the radio animation.')
-AddTextEntry('COMMAND_RADIOANIMATION_PARAMETERS', 'Usage: /radioanimation <animationType>')
-
+TriggerEvent('chat:addSuggestion', '/radioanimation', 'Change the radio animation', {
+    { name="Animation", help="Pick one of these: handheld, sholder, chest" }
+})
 ---comment function to handle radio animation
 ---@param enable boolean
 local function handleRadioAnim(enable)
