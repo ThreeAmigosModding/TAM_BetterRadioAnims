@@ -55,7 +55,7 @@ local function checkType(ped, animType)
     local model = GetEntityModel(ped)
     local animConfig = config[animType]
     local drawableType = GetPedDrawableVariation(ped, animConfig.drawable)
-    local textureType = GetPedTextureVariation(ped, drawableType)
+    local textureType = GetPedTextureVariation(ped, animConfig.drawable)
 
     if lib.table.contains(config.blacklistedPeds, model) then
         TriggerEvent("chat:addMessage", "[Radio Anims] The ped model you're using is blacklisted!")
@@ -63,41 +63,42 @@ local function checkType(ped, animType)
     end
 
     for gender, modelType in pairs(modelTypes) do
-        for _, drawableVariation in pairs(animConfig[gender].variations) do
-            table.insert(drawableVariationType, drawableVariation)
-        end
-
-        for _, textureVariation in pairs(animConfig[gender].textures) do
-            table.insert(textureVariationType, textureVariation)
+        if model == GetHashKey(modelType) then
+            drawableVariationType = animConfig[gender].variations
+            textureVariationType = animConfig[gender].textures
         end
     end
 
-    if lib.table.contains(drawableVariationType, drawableType) and lib.table.contains(textureVariationType, textureType) then return true end
+    if lib.table.contains(drawableVariationType, drawableType) and lib.table.contains(textureVariationType, textureType) then
+        return true
+    end
 
     return false
 end
+
 
 ---comment function to handle radio animation
 ---@param enable boolean
 local function handleRadioAnim(enable)
     local ped = cache.ped
     local veh = cache.vehicle
-    local isAiming = IsPlayerFreeAiming(cache.playerId)
+    local playerId = PlayerId()
+    local isAiming = IsPlayerFreeAiming(playerId)
     local vehClass = GetVehicleClass(veh)
 
     if not DoesEntityExist(ped) or IsEntityDead(ped) or IsPauseMenuActive() then return end
 
     if enable then
         local emote = config.defaultEmote
-        local chest = checkType(ped, "chestAnim")
-        local shoulder = checkType(ped, "shoulderAnim")
-        local ear = checkType(ped, "earpieceAnim")
+        local chest = config.chestAnim.enable and checkType(ped, "chestAnim")
+        local shoulder = config.shoulderAnim.enable and checkType(ped, "shoulderAnim")
+        local ear = config.earpieceAnim.enable and checkType(ped, "earpieceAnim")
         local allowInCar = config.allowEmoteInVehicles
         local isBlacklisted = lib.table.contains(config.blacklistedClasses, vehClass)
 
         if not emote then return end
 
-        if isAiming then
+        if isAiming and shoulder then
             emote = config.shoulderAnim.emoteAiming
         elseif chest then
             emote = config.chestAnim.emote
@@ -113,7 +114,7 @@ local function handleRadioAnim(enable)
         return
     end
 
-   handleEmote()
+    handleEmote()
 end
 
 if config.useKeybind then
