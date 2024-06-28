@@ -39,7 +39,7 @@ local function handleEmote(emote, action)
     end
 end
 
---- Function to check variation & texture types of ped.     --edited ~trManu
+--- Function to check variation & texture types of ped.
 ---@param ped integer
 ---@param animType string
 ---@return boolean
@@ -77,7 +77,7 @@ local function checkType(ped, animType)
 end
 
 
----comment function to handle radio animation       --edited ~trManu
+---comment function to handle radio animation
 ---@param enable boolean
 local function handleRadioAnim(enable)
     local ped = cache.ped
@@ -116,9 +116,6 @@ local function handleRadioAnim(enable)
 
     handleEmote()
 end
-
-
-
 
 if config.useKeybind then
     lib.addKeybind({
